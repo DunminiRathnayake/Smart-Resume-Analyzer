@@ -13,9 +13,9 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const res = await api.get('/resume/history');
+        const res = await api.get('/resumes/history');
         // Get only the 3 most recent
-        setHistory(res.data.data.slice(0, 3));
+        setHistory(res.data.analyses ? res.data.analyses.slice(0, 3) : []);
       } catch (error) {
         console.error('Failed to fetch history', error);
       } finally {

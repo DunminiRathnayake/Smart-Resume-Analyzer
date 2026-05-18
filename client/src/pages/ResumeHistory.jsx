@@ -11,8 +11,8 @@ const ResumeHistory = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const res = await api.get('/resume/history');
-        setHistory(res.data.data);
+        const res = await api.get('/resumes/history');
+        setHistory(res.data.analyses || []);
       } catch (error) {
         console.error('Failed to fetch history', error);
       } finally {

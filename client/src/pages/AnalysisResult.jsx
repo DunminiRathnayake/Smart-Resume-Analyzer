@@ -16,8 +16,8 @@ const AnalysisResult = () => {
   useEffect(() => {
     const fetchResult = async () => {
       try {
-        const res = await api.get(`/resume/${id}`);
-        setResult(res.data.data);
+        const res = await api.get(`/resumes/${id}`);
+        setResult(res.data);
       } catch (err) {
         setError('Failed to load analysis result');
         console.error(err);

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import ResumeAnalysis from '../models/ResumeAnalysis.js';
 import extractTextFromPDF from '../utils/pdfParser.js';
 
@@ -8,6 +9,9 @@ import extractTextFromPDF from '../utils/pdfParser.js';
  */
 export const uploadResume = async (req, res) => {
   try {
+    console.log('req.file:', req.file);
+    console.log('req.body:', req.body);
+
     // 1. Check if a file was actually uploaded
     if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded. Please upload a PDF file.' });
@@ -15,8 +19,18 @@ export const uploadResume = async (req, res) => {
 
     const { originalname, filename, path: filePath } = req.file;
 
+    if (!filePath) {
+      return res.status(400).json({ message: 'File upload failed. No file path generated.' });
+    }
+
     // 2. Extract text from the uploaded PDF
     const extractedText = await extractTextFromPDF(filePath);
+    console.log('Extracted text length:', extractedText ? extractedText.length : 0);
+
+    if (!extractedText || extractedText.trim().length < 50) {
+      if (req.file && req.file.path) fs.unlinkSync(req.file.path);
+      return res.status(400).json({ message: 'Could not extract readable text from this PDF. Please upload a text-based PDF, not a scanned image PDF.' });
+    }
 
     // 3. Save the resume analysis record to MongoDB
     const resumeAnalysis = await ResumeAnalysis.create({
@@ -37,7 +51,14 @@ export const uploadResume = async (req, res) => {
       analysisStatus: resumeAnalysis.analysisStatus,
     });
   } catch (error) {
-    console.error('Error in uploadResume:', error.message);
+    console.error('Error during upload:', error);
+    if (req.file && req.file.path && fs.existsSync(req.file.path)) {
+      try {
+        fs.unlinkSync(req.file.path);
+      } catch (unlinkErr) {
+        console.error('Failed to delete file:', unlinkErr);
+      }
+    }
     res.status(500).json({ message: error.message || 'Server error during resume upload' });
   }
 };

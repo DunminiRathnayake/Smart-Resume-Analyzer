@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
+import resumeRoutes from './routes/resumeRoutes.js';
 
 // 1. Initialize dotenv configuration to read variables from .env file
 dotenv.config();
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 
 // (Future routes will be mounted below here, e.g., app.use('/api/auth', authRoutes))
 app.use('/api/auth', authRoutes);
+app.use('/api/resumes', resumeRoutes);
 
 // 5. Connect to Database and Start the Server
 const PORT = process.env.PORT || 5000;
