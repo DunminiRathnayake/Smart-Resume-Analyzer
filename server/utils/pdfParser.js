@@ -10,27 +10,30 @@ const pdfParse = require('pdf-parse');
  */
 const extractTextFromPDF = async (filePath) => {
   try {
-    // Read the PDF file as a buffer
+    console.log(`[pdfParser] Starting text extraction for file: ${filePath}`);
+    
+    // Read uploaded PDF file using fs.readFileSync
     const dataBuffer = fs.readFileSync(filePath);
 
-    // Use pdf-parse to extract text from the buffer
-    const data = await pdfParse(dataBuffer);
+    // Pass file buffer into pdfParse()
+    const pdfData = await pdfParse(dataBuffer);
     
-    const extractedText = data.text ? data.text.trim() : '';
+    const extractedText = pdfData.text ? pdfData.text.trim() : '';
+    console.log(`[pdfParser] Extracted text length: ${extractedText.length} characters`);
     
     if (!extractedText || extractedText.length < 50) {
-      console.warn('PDF parsing yielded empty or very short text.');
-      throw new Error('Could not extract readable text from this PDF. Please upload a text-based PDF exported from Word or Google Docs.');
+      console.warn('[pdfParser] PDF parsing yielded empty or very short text.');
+      throw new Error('Could not extract readable text from PDF.');
     }
 
-    // Return the extracted plain text
+    // Return parsed text
     return extractedText;
   } catch (error) {
-    console.error('PDF parsing error:', error.message);
+    console.error('[pdfParser] Parsing errors:', error.message);
     if (error.message.includes('Could not extract readable text')) {
       throw error;
     }
-    throw new Error('Failed to extract text from PDF. The file may be corrupted or password protected.');
+    throw new Error('Could not extract readable text from PDF.');
   }
 };
 

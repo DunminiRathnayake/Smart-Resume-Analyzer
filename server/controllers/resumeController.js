@@ -52,6 +52,8 @@ export const uploadResume = async (req, res) => {
     });
   } catch (error) {
     console.error('Error during upload:', error);
+    
+    // Automatically delete failed uploaded files
     if (req.file && req.file.path && fs.existsSync(req.file.path)) {
       try {
         fs.unlinkSync(req.file.path);
@@ -59,7 +61,12 @@ export const uploadResume = async (req, res) => {
         console.error('Failed to delete file:', unlinkErr);
       }
     }
-    res.status(500).json({ message: error.message || 'Server error during resume upload' });
+
+    if (error.message.includes('Could not extract readable text')) {
+      return res.status(400).json({ message: 'Could not extract readable text from this PDF. Please upload a text-based PDF exported from Word or Google Docs.' });
+    }
+    
+    res.status(500).json({ message: 'Could not extract readable text from PDF.' });
   }
 };
 
