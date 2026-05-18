@@ -21,6 +21,10 @@ export const protect = async (req, res, next) => {
       // We use .select('-password') to exclude the password from the returned user object
       req.user = await User.findById(decoded.id).select('-password');
 
+      if (!req.user) {
+        return res.status(401).json({ message: 'Not authorized, user no longer exists' });
+      }
+
       // Move to the next middleware or route handler
       next();
     } catch (error) {

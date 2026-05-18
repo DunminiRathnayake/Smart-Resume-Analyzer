@@ -62,11 +62,11 @@ export const uploadResume = async (req, res) => {
       }
     }
 
-    if (error.message.includes('Could not extract readable text')) {
+    if (error.message && error.message.includes('Could not extract readable text')) {
       return res.status(400).json({ message: 'Could not extract readable text from this PDF. Please upload a text-based PDF exported from Word or Google Docs.' });
     }
     
-    res.status(500).json({ message: 'Could not extract readable text from PDF.' });
+    res.status(500).json({ message: error.message || 'Server error during resume upload' });
   }
 };
 
