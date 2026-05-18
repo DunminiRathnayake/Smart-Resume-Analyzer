@@ -29,7 +29,7 @@ export const uploadResume = async (req, res) => {
 
     if (!extractedText || extractedText.trim().length < 50) {
       if (req.file && req.file.path) fs.unlinkSync(req.file.path);
-      return res.status(400).json({ message: 'Could not extract readable text from this PDF. Please upload a text-based PDF, not a scanned image PDF.' });
+      return res.status(400).json({ message: 'Could not extract readable text from this PDF. Please upload a text-based PDF exported from Word or Google Docs.' });
     }
 
     // 3. Save the resume analysis record to MongoDB

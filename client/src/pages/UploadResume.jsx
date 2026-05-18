@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import ResumeUploadForm from '../components/ResumeUploadForm';
 import api from '../api/axios';
+import { Info } from 'lucide-react';
 
 const UploadResume = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +56,18 @@ const UploadResume = () => {
           )}
 
           <ResumeUploadForm onSubmit={handleUpload} isLoading={isLoading} />
+
+          <div className="mt-8 bg-blue-50/50 border border-blue-100 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-blue-900 mb-3 flex items-center gap-2">
+              <Info className="h-5 w-5 text-blue-600" /> Recommended Resume Format
+            </h3>
+            <ul className="list-disc list-inside text-blue-800 space-y-1.5 ml-1 text-sm">
+              <li>Text-based PDF</li>
+              <li>ATS-friendly layout</li>
+              <li>Selectable text</li>
+              <li>Standard fonts</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

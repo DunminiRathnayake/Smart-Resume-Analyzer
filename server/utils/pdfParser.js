@@ -20,7 +20,7 @@ const extractTextFromPDF = async (filePath) => {
     
     if (!extractedText || extractedText.length < 50) {
       console.warn('PDF parsing yielded empty or very short text.');
-      throw new Error('Could not extract readable text from this PDF. Please upload a text-based PDF, not a scanned image PDF.');
+      throw new Error('Could not extract readable text from this PDF. Please upload a text-based PDF exported from Word or Google Docs.');
     }
 
     // Return the extracted plain text

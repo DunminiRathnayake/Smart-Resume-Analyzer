@@ -116,7 +116,7 @@ const ResumeUploadForm = ({ onSubmit, isLoading }) => {
         )}
         {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
         <p className="mt-3 text-sm text-gray-500">
-          <span className="font-medium">Note:</span> Please upload a text-based PDF resume. Scanned/image-based PDFs may not be supported.
+          <span className="font-medium">Note:</span> Best results with text-based PDFs exported from Microsoft Word or Google Docs. Scanned/image-based PDFs may not be supported.
         </p>
       </div>
 
