@@ -67,7 +67,7 @@ const AnalysisResult = () => {
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-                  <FileText className="h-6 w-6 text-primary" /> {result.fileName}
+                  <FileText className="h-6 w-6 text-primary" /> {result.originalFileName}
                 </h1>
                 <div className="flex items-center text-gray-500 text-sm gap-4">
                   <span className="flex items-center gap-1"><Calendar className="h-4 w-4" /> {new Date(result.createdAt).toLocaleDateString()}</span>
@@ -83,22 +83,22 @@ const AnalysisResult = () => {
             {/* Left Column - Score & Skills */}
             <div className="lg:col-span-1 space-y-6">
               <ATSScoreCard score={result.atsScore} />
-              <SkillTags title="Matching Skills" skills={result.skillsFound} type="found" />
-              <SkillTags title="Missing Skills to Add" skills={result.skillsMissing} type="missing" />
+              <SkillTags title="Matching Skills" skills={result.detectedSkills} type="found" />
+              <SkillTags title="Missing Skills to Add" skills={result.missingSkills} type="missing" />
             </div>
 
             {/* Right Column - Feedback & Suggestions */}
             <div className="lg:col-span-2 space-y-6">
-              {result.jobDescription && (
+              {result.targetJobDescription && (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                   <h3 className="text-lg font-semibold text-gray-800 mb-3">Target Job Description</h3>
                   <div className="bg-gray-50 p-4 rounded-lg text-sm text-gray-600 max-h-40 overflow-y-auto whitespace-pre-wrap">
-                    {result.jobDescription}
+                    {result.targetJobDescription}
                   </div>
                 </div>
               )}
               
-              <SuggestionCard suggestions={result.suggestions} feedback={result.feedback} />
+              <SuggestionCard suggestions={result.suggestions} feedback={result.feedback || "Based on the mock analysis, here are some actionable suggestions to improve your ATS score."} />
             </div>
           </div>
         </div>

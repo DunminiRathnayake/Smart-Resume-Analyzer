@@ -1,6 +1,7 @@
 import fs from 'fs';
 import ResumeAnalysis from '../models/ResumeAnalysis.js';
 import extractTextFromPDF from '../utils/pdfParser.js';
+import analyzeResumeMock from '../utils/mockResumeAnalyzer.js';
 
 /**
  * @desc    Upload a resume PDF and save analysis record
@@ -32,22 +33,35 @@ export const uploadResume = async (req, res) => {
       return res.status(400).json({ message: 'Could not extract readable text from this PDF. Please upload a text-based PDF exported from Word or Google Docs.' });
     }
 
-    // 3. Save the resume analysis record to MongoDB
+    // 3. Perform mock AI analysis
+    const jobDescription = req.body.jobDescription || '';
+    const mockAnalysisResult = analyzeResumeMock(extractedText, jobDescription);
+
+    // 4. Save the resume analysis record to MongoDB
     const resumeAnalysis = await ResumeAnalysis.create({
       user: req.user._id,             // From protect middleware
       originalFileName: originalname,
       storedFileName: filename,
       filePath: filePath,
       extractedText: extractedText,
-      analysisStatus: 'pending',      // AI analysis not yet done
+      targetJobDescription: jobDescription,
+      atsScore: mockAnalysisResult.atsScore,
+      detectedSkills: mockAnalysisResult.detectedSkills,
+      missingSkills: mockAnalysisResult.missingSkills,
+      suggestions: mockAnalysisResult.suggestions,
+      analysisStatus: mockAnalysisResult.analysisStatus,
     });
 
-    // 4. Return response with file info, text preview, and saved record ID
+    // 5. Return response with full analysis info
     res.status(201).json({
-      message: 'Resume uploaded and text extracted successfully. AI analysis coming soon.',
+      message: 'Resume analyzed successfully.',
       analysisId: resumeAnalysis._id,
       originalFileName: originalname,
-      extractedTextPreview: extractedText.substring(0, 300) + '...', // Show first 300 chars
+      extractedTextPreview: extractedText.substring(0, 300) + '...',
+      atsScore: resumeAnalysis.atsScore,
+      detectedSkills: resumeAnalysis.detectedSkills,
+      missingSkills: resumeAnalysis.missingSkills,
+      suggestions: resumeAnalysis.suggestions,
       analysisStatus: resumeAnalysis.analysisStatus,
     });
   } catch (error) {

@@ -24,6 +24,12 @@ const resumeAnalysisSchema = new mongoose.Schema(
     extractedText: {
       type: String,
     },
+    
+    // Optional job description to compare against
+    targetJobDescription: {
+      type: String,
+      default: '',
+    },
 
     // AI analysis results (filled in after AI integration)
     atsScore: {
