@@ -1,10 +1,14 @@
 import express from 'express';
-import { registerUser, loginUser } from '../controllers/authController.js';
+import { registerUser, loginUser, getMe } from '../controllers/authController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Define routes and map them to controller functions
+// Public routes
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+
+// Protected route — requires valid JWT token
+router.get('/me', protect, getMe);
 
 export default router;

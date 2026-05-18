@@ -2,6 +2,13 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
+// Helper function to generate a JWT token
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '30d', // Token expires in 30 days
+  });
+};
+
 /**
  * @desc    Register a new user
  * @route   POST /api/auth/register
@@ -33,15 +40,13 @@ export const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    // 5. Return success message and user data (excluding password)
+    // 5. Generate token and return user data (excluding password)
     res.status(201).json({
-      message: 'User registered successfully',
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      token: generateToken(user._id),
     });
   } catch (error) {
     console.error('Error in registerUser:', error.message);
@@ -75,24 +80,31 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // 4. Generate JWT token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '30d', // Token expires in 30 days
-    });
-
-    // 5. Return token and user data (excluding password)
+    // 4. Return token and user data (excluding password)
     res.status(200).json({
-      message: 'Login successful',
-      token,
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      token: generateToken(user._id),
     });
   } catch (error) {
     console.error('Error in loginUser:', error.message);
     res.status(500).json({ message: 'Server error during login' });
+  }
+};
+
+/**
+ * @desc    Get currently logged-in user's profile
+ * @route   GET /api/auth/me
+ * @access  Private (requires token)
+ */
+export const getMe = async (req, res) => {
+  try {
+    // req.user is set by the protect middleware (password already excluded)
+    res.status(200).json(req.user);
+  } catch (error) {
+    console.error('Error in getMe:', error.message);
+    res.status(500).json({ message: 'Server error fetching profile' });
   }
 };
