@@ -2,6 +2,7 @@ import fs from 'fs';
 import ResumeAnalysis from '../models/ResumeAnalysis.js';
 import extractTextFromPDF from '../utils/pdfParser.js';
 import analyzeResumeMock from '../utils/mockResumeAnalyzer.js';
+import analyzeResumeWithGemini from '../utils/geminiResumeAnalyzer.js';
 
 /**
  * @desc    Upload a resume PDF and save analysis record
@@ -33,9 +34,20 @@ export const uploadResume = async (req, res) => {
       return res.status(400).json({ message: 'Could not extract readable text from this PDF. Please upload a text-based PDF exported from Word or Google Docs.' });
     }
 
-    // 3. Perform mock AI analysis
+    // 3. Perform AI analysis
     const jobDescription = req.body.jobDescription || '';
-    const mockAnalysisResult = analyzeResumeMock(extractedText, jobDescription);
+    let analysisResult;
+
+    try {
+      // Attempt to analyze with Gemini AI
+      console.log('Attempting Gemini AI analysis...');
+      analysisResult = await analyzeResumeWithGemini(extractedText, jobDescription);
+      console.log('Gemini AI analysis successful.');
+    } catch (aiError) {
+      // Fallback to mock analysis if Gemini fails (e.g. invalid key, quota exceeded)
+      console.warn('Gemini analysis failed, falling back to mock analysis:', aiError.message);
+      analysisResult = analyzeResumeMock(extractedText, jobDescription);
+    }
 
     // 4. Save the resume analysis record to MongoDB
     const resumeAnalysis = await ResumeAnalysis.create({
@@ -45,11 +57,14 @@ export const uploadResume = async (req, res) => {
       filePath: filePath,
       extractedText: extractedText,
       targetJobDescription: jobDescription,
-      atsScore: mockAnalysisResult.atsScore,
-      detectedSkills: mockAnalysisResult.detectedSkills,
-      missingSkills: mockAnalysisResult.missingSkills,
-      suggestions: mockAnalysisResult.suggestions,
-      analysisStatus: mockAnalysisResult.analysisStatus,
+      atsScore: analysisResult.atsScore,
+      detectedSkills: analysisResult.detectedSkills,
+      missingSkills: analysisResult.missingSkills,
+      suggestions: analysisResult.suggestions,
+      strengths: analysisResult.strengths || [],
+      weaknesses: analysisResult.weaknesses || [],
+      jobMatchSummary: analysisResult.jobMatchSummary || '',
+      analysisStatus: analysisResult.analysisStatus,
     });
 
     // 5. Return response with full analysis info
@@ -62,6 +77,9 @@ export const uploadResume = async (req, res) => {
       detectedSkills: resumeAnalysis.detectedSkills,
       missingSkills: resumeAnalysis.missingSkills,
       suggestions: resumeAnalysis.suggestions,
+      strengths: resumeAnalysis.strengths,
+      weaknesses: resumeAnalysis.weaknesses,
+      jobMatchSummary: resumeAnalysis.jobMatchSummary,
       analysisStatus: resumeAnalysis.analysisStatus,
     });
   } catch (error) {

@@ -48,6 +48,18 @@ const resumeAnalysisSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    strengths: {
+      type: [String],
+      default: [],
+    },
+    weaknesses: {
+      type: [String],
+      default: [],
+    },
+    jobMatchSummary: {
+      type: String,
+      default: '',
+    },
 
     // Track the status of AI analysis
     analysisStatus: {

@@ -98,7 +98,12 @@ const AnalysisResult = () => {
                 </div>
               )}
               
-              <SuggestionCard suggestions={result.suggestions} feedback={result.feedback || "Based on the mock analysis, here are some actionable suggestions to improve your ATS score."} />
+              <SuggestionCard 
+                suggestions={result.suggestions} 
+                feedback={result.jobMatchSummary || "Based on the analysis, here are some actionable suggestions to improve your ATS score."} 
+                strengths={result.strengths}
+                weaknesses={result.weaknesses}
+              />
             </div>
           </div>
         </div>
