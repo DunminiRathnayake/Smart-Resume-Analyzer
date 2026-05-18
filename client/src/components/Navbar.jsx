@@ -35,7 +35,7 @@ const Navbar = () => {
             ) : (
               <>
                 <Link to="/login" className="text-gray-600 hover:text-primary font-medium transition-colors">Login</Link>
-                <Link to="/register" className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md font-medium transition-colors shadow-sm">
+                <Link to="/register" className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white px-4 py-2 rounded-md font-medium transition-colors shadow-sm">
                   Sign Up
                 </Link>
               </>
