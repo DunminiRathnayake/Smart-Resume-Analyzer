@@ -46,8 +46,12 @@ export const uploadResume = async (req, res) => {
     } catch (aiError) {
       // Fallback to mock analysis if Gemini fails (e.g. invalid key, quota exceeded)
       console.warn('Gemini analysis failed, falling back to mock analysis:', aiError.message);
+      console.log('Using mock analyzer...');
       analysisResult = analyzeResumeMock(extractedText, jobDescription);
     }
+
+    console.log('ATS Score returned:', analysisResult.atsScore);
+    console.log('Analysis Status:', analysisResult.analysisStatus);
 
     // 4. Save the resume analysis record to MongoDB
     const resumeAnalysis = await ResumeAnalysis.create({

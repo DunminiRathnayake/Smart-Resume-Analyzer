@@ -2,8 +2,6 @@ import { CheckCircle2, XCircle } from 'lucide-react';
 
 const SkillTags = ({ title, skills, type = 'found' }) => {
   const isFound = type === 'found';
-  
-  if (!skills || skills.length === 0) return null;
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
@@ -16,18 +14,22 @@ const SkillTags = ({ title, skills, type = 'found' }) => {
         <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
       </div>
       <div className="flex flex-wrap gap-2">
-        {skills.map((skill, index) => (
-          <span 
-            key={index}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium ${
-              isFound 
-                ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' 
-                : 'bg-red-50 text-red-700 border border-red-100'
-            }`}
-          >
-            {skill}
-          </span>
-        ))}
+        {(!skills || skills.length === 0) ? (
+          <p className="text-gray-500 text-sm italic">No {isFound ? 'matching' : 'missing'} skills identified.</p>
+        ) : (
+          skills.map((skill, index) => (
+            <span 
+              key={index}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium ${
+                isFound 
+                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' 
+                  : 'bg-red-50 text-red-700 border border-red-100'
+              }`}
+            >
+              {skill}
+            </span>
+          ))
+        )}
       </div>
     </div>
   );

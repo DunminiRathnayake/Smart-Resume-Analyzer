@@ -128,7 +128,7 @@ const ResumeUploadForm = ({ onSubmit, isLoading }) => {
         {isLoading ? (
           <>
             <Loader2 className="h-5 w-5 animate-spin" />
-            Analyzing Resume...
+            Analyzing your resume with AI...
           </>
         ) : (
           'Analyze Resume'

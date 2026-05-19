@@ -61,20 +61,25 @@ const ResumeHistory = () => {
                         {item.atsScore}
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary transition-colors">{item.fileName}</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary transition-colors">{item.originalFileName || 'Resume'}</h3>
                         <div className="flex items-center text-sm text-gray-500 gap-4 mt-1">
                           <span className="flex items-center gap-1"><Calendar className="h-4 w-4" /> {new Date(item.createdAt).toLocaleDateString()}</span>
-                          {item.jobDescription && <span className="bg-gray-100 px-2 py-0.5 rounded text-xs">Tailored</span>}
+                          {item.targetJobDescription && <span className="bg-gray-100 px-2 py-0.5 rounded text-xs border border-gray-200">Tailored</span>}
+                          {item.analysisStatus === 'completed' ? (
+                            <span className="bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded text-xs border border-emerald-100">Completed</span>
+                          ) : (
+                            <span className="bg-amber-50 text-amber-600 px-2 py-0.5 rounded text-xs border border-amber-100">Pending</span>
+                          )}
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center justify-between sm:justify-end gap-6 sm:w-48">
                       <div className="text-right hidden sm:block">
-                        <p className="text-sm font-medium text-gray-900">{item.skillsFound?.length || 0} Skills</p>
+                        <p className="text-sm font-medium text-gray-900">{item.detectedSkills?.length || 0} Skills</p>
                         <p className="text-xs text-gray-500">Matched</p>
                       </div>
-                      <span className="text-primary font-medium group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                        View <span className="hidden sm:inline">Details</span> →
+                      <span className="text-primary font-medium group-hover:translate-x-1 transition-transform flex items-center gap-1 bg-primary/5 px-3 py-1.5 rounded-lg border border-primary/10">
+                        View Result
                       </span>
                     </div>
                   </Link>
