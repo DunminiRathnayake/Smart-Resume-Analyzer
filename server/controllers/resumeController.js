@@ -3,6 +3,7 @@ import ResumeAnalysis from '../models/ResumeAnalysis.js';
 import extractTextFromPDF from '../utils/pdfParser.js';
 import analyzeResumeMock from '../utils/mockResumeAnalyzer.js';
 import analyzeResumeWithGemini from '../utils/geminiResumeAnalyzer.js';
+import generateReportPdf from '../utils/generateReportPdf.js';
 
 /**
  * @desc    Upload a resume PDF and save analysis record
@@ -151,5 +152,39 @@ export const getResumeAnalysisById = async (req, res) => {
   } catch (error) {
     console.error('Error in getResumeAnalysisById:', error.message);
     res.status(500).json({ message: 'Server error fetching resume analysis' });
+  }
+};
+
+/**
+ * @desc    Generate and download PDF report for a resume analysis
+ * @route   GET /api/resumes/:id/report
+ * @access  Private (requires token)
+ */
+export const downloadResumeReport = async (req, res) => {
+  try {
+    const analysis = await ResumeAnalysis.findById(req.params.id);
+
+    // Check if analysis exists
+    if (!analysis) {
+      return res.status(404).json({ message: 'Resume analysis not found' });
+    }
+
+    // Make sure the logged-in user owns this analysis
+    if (analysis.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to download this report' });
+    }
+
+    // Set headers to prompt download
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="Resume_Analysis_Report_${analysis.originalFileName || 'resume'}.pdf"`
+    );
+
+    // Generate PDF and stream it directly to the response
+    generateReportPdf(analysis, res);
+  } catch (error) {
+    console.error('Error generating PDF report:', error.message);
+    res.status(500).json({ message: 'Server error generating PDF report' });
   }
 };

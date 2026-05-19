@@ -1,5 +1,5 @@
 import express from 'express';
-import { uploadResume, getMyResumeHistory, getResumeAnalysisById } from '../controllers/resumeController.js';
+import { uploadResume, getMyResumeHistory, getResumeAnalysisById, downloadResumeReport } from '../controllers/resumeController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import upload from '../middleware/uploadMiddleware.js';
 
@@ -13,6 +13,9 @@ router.post('/upload', protect, upload.single('resume'), uploadResume);
 
 // GET /api/resumes/history — Get all resume analyses for logged-in user
 router.get('/history', protect, getMyResumeHistory);
+
+// GET /api/resumes/:id/report — Download PDF report for an analysis
+router.get('/:id/report', protect, downloadResumeReport);
 
 // GET /api/resumes/:id — Get a specific resume analysis by ID
 router.get('/:id', protect, getResumeAnalysisById);

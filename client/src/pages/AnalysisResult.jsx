@@ -5,13 +5,40 @@ import ATSScoreCard from '../components/ATSScoreCard';
 import SkillTags from '../components/SkillTags';
 import SuggestionCard from '../components/SuggestionCard';
 import api from '../api/axios';
-import { ArrowLeft, Loader2, Calendar, FileText } from 'lucide-react';
+import { ArrowLeft, Loader2, Calendar, FileText, Download } from 'lucide-react';
 
 const AnalysisResult = () => {
   const { id } = useParams();
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    try {
+      setIsDownloading(true);
+      const res = await api.get(`/resumes/${id}/report`, {
+        responseType: 'blob', // Important for downloading files
+      });
+
+      // Create a blob from the PDF stream
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `Resume_Analysis_Report_${result.originalFileName || 'resume'}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      
+      // Clean up
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Failed to download report:', err);
+      // Optional: show a toast or error message for download failure
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchResult = async () => {
@@ -73,8 +100,18 @@ const AnalysisResult = () => {
                   <span className="flex items-center gap-1"><Calendar className="h-4 w-4" /> {new Date(result.createdAt).toLocaleDateString()}</span>
                 </div>
               </div>
-              <div className="bg-primary/5 px-4 py-2 rounded-lg border border-primary/10">
-                <p className="text-sm text-primary font-semibold">AI Scan Complete</p>
+              <div className="flex items-center gap-3">
+                <div className="bg-primary/5 px-4 py-2 rounded-lg border border-primary/10 hidden sm:block">
+                  <p className="text-sm text-primary font-semibold">AI Scan Complete</p>
+                </div>
+                <button
+                  onClick={handleDownload}
+                  disabled={isDownloading}
+                  className="bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-500 text-white px-4 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl opacity-100 transition-all flex items-center gap-2 disabled:bg-none disabled:bg-slate-300 disabled:text-slate-700 disabled:cursor-not-allowed disabled:shadow-none"
+                >
+                  {isDownloading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+                  {isDownloading ? 'Downloading...' : 'Download PDF Report'}
+                </button>
               </div>
             </div>
           </div>
