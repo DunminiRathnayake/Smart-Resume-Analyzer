@@ -46,13 +46,13 @@ const Home = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 to="/register"
-                className="bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-500 hover:from-indigo-500 hover:via-purple-500 hover:to-fuchsia-400 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2 text-base"
+                className="bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-500 text-white font-semibold shadow-lg hover:shadow-xl opacity-100 px-8 py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-base"
               >
                 Get Started Free <ArrowRight className="h-5 w-5" />
               </Link>
               <Link
                 to="/login"
-                className="bg-white hover:bg-gray-50 text-gray-800 border border-gray-200 px-8 py-4 rounded-xl font-semibold text-base transition-colors shadow-sm flex items-center justify-center"
+                className="bg-white text-slate-900 border border-slate-300 font-semibold hover:bg-slate-50 px-8 py-4 rounded-xl text-base transition-colors flex items-center justify-center"
               >
                 Sign In
               </Link>

@@ -123,7 +123,7 @@ const ResumeUploadForm = ({ onSubmit, isLoading }) => {
       <button
         type="submit"
         disabled={isLoading || !file}
-        className="w-full flex justify-center items-center gap-2 bg-primary hover:bg-primary/90 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed shadow-sm"
+        className="w-full flex justify-center items-center gap-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-500 text-white font-semibold shadow-lg hover:shadow-xl opacity-100 disabled:bg-none disabled:bg-slate-300 disabled:text-slate-700 disabled:cursor-not-allowed disabled:shadow-none py-3 px-4 rounded-lg transition-all"
       >
         {isLoading ? (
           <>

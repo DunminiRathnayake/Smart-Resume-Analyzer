@@ -42,7 +42,7 @@ const ResumeHistory = () => {
                 <FileText className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 mb-1">No History Found</h3>
                 <p className="text-gray-500 mb-6">You haven't scanned any resumes yet.</p>
-                <Link to="/upload" className="bg-primary text-white px-6 py-2.5 rounded-lg font-medium hover:bg-primary/90 transition-colors">
+                <Link to="/upload" className="bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-500 text-white px-6 py-2.5 rounded-lg font-semibold shadow-lg hover:shadow-xl opacity-100 transition-all">
                   Upload Your First Resume
                 </Link>
               </div>
@@ -78,7 +78,7 @@ const ResumeHistory = () => {
                         <p className="text-sm font-medium text-gray-900">{item.detectedSkills?.length || 0} Skills</p>
                         <p className="text-xs text-gray-500">Matched</p>
                       </div>
-                      <span className="text-primary font-medium group-hover:translate-x-1 transition-transform flex items-center gap-1 bg-primary/5 px-3 py-1.5 rounded-lg border border-primary/10">
+                      <span className="bg-white text-slate-900 border border-slate-300 font-semibold hover:bg-slate-50 transition-colors flex items-center gap-1 px-3 py-1.5 rounded-lg">
                         View Result
                       </span>
                     </div>

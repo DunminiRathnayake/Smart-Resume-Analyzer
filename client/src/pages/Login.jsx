@@ -78,7 +78,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold font-medium text-white bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors disabled:opacity-70"
+            className="w-full flex justify-center items-center py-3 px-4 rounded-lg bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-500 text-white font-semibold shadow-lg hover:shadow-xl opacity-100 disabled:bg-none disabled:bg-slate-300 disabled:text-slate-700 disabled:cursor-not-allowed disabled:shadow-none transition-all"
           >
             {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Sign in'}
           </button>

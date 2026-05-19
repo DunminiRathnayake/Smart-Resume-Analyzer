@@ -39,7 +39,7 @@ const Dashboard = () => {
             <div className="bg-gradient-to-br from-primary to-purple-600 rounded-2xl p-8 text-white shadow-lg">
               <h2 className="text-2xl font-bold mb-4">New Analysis</h2>
               <p className="mb-6 opacity-90">Upload your latest resume and target job description to get instant, actionable feedback.</p>
-              <Link to="/upload" className="inline-flex items-center gap-2 bg-white text-primary px-5 py-2.5 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+              <Link to="/upload" className="inline-flex items-center gap-2 bg-white text-slate-900 border border-slate-300 px-5 py-2.5 rounded-lg font-semibold hover:bg-slate-50 transition-colors">
                 <Plus className="h-5 w-5" /> Start New Scan
               </Link>
             </div>
@@ -91,7 +91,7 @@ const Dashboard = () => {
                         {item.atsScore}
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800 group-hover:text-primary transition-colors">{item.fileName}</h3>
+                        <h3 className="font-semibold text-gray-800 group-hover:text-primary transition-colors">{item.originalFileName || 'Resume'}</h3>
                         <p className="text-sm text-gray-500">{new Date(item.createdAt).toLocaleDateString()}</p>
                       </div>
                     </div>
