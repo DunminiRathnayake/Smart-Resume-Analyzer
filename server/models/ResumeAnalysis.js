@@ -84,6 +84,10 @@ const resumeAnalysisSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    coverLetter: {
+      type: String,
+      default: '',
+    },
 
     // Track the status of AI analysis
     analysisStatus: {

@@ -76,6 +76,18 @@ export const analyzeResumeMock = (extractedText, targetJobDescription = '') => {
       "How would you optimize the performance of our existing dashboard if you noticed query load times were sluggish?",
       "Tell me about a time you worked in a team and had to resolve a technical disagreement with a peer."
     ],
+    coverLetter: `Dear Hiring Manager,
+
+I am writing to express my strong interest in the Software Engineer position at your esteemed company. As a passionate developer with practical experience in building full-stack web applications using JavaScript, React, and Node.js, I am excited about the opportunity to contribute to your engineering team's success.
+
+Throughout my personal and academic projects, I have designed and deployed responsive frontend user interfaces as well as robust REST APIs. My experience leveraging MongoDB and Express.js has allowed me to build scalable systems, and I am always looking for ways to refine my coding practices and learn new technologies, including TypeScript and Docker.
+
+I am particularly drawn to your company's innovative culture and commitment to technological excellence. I am confident that my technical skills, proactive problem-solving mindset, and dedication to writing clean, maintainable code make me an excellent fit for this junior engineering role.
+
+Thank you for your time and consideration. I look forward to the possibility of discussing how my background and enthusiasm align with your team's goals.
+
+Sincerely,
+[Your Name]`,
     analysisStatus: 'completed'
   };
 };

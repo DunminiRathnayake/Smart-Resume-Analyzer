@@ -54,6 +54,7 @@ export const analyzeResumeWithGemini = async (extractedText, targetJobDescriptio
           "Job Description Question 2 (related to target job description)",
           "Behavioral Question 1"
         ],
+        "coverLetter": "A professional cover letter of 3 to 4 short paragraphs. Keep a professional tone, tailor it specifically to the target job description using the candidate's skills and projects from their resume. Ensure it is highly suitable for internship or junior software engineer applications. Do not invent fake company names if they are not explicitly specified in the job description (use [Company Name] or a similar placeholder instead).",
         "analysisStatus": "completed"
       }
     `;
@@ -84,6 +85,7 @@ export const analyzeResumeWithGemini = async (extractedText, targetJobDescriptio
       jobFitSummary: analysisData.jobFitSummary || 'No job fit summary provided.',
       shortFeedbackSummary: analysisData.shortFeedbackSummary || 'No feedback summary available yet.',
       interviewQuestions: analysisData.interviewQuestions || [],
+      coverLetter: analysisData.coverLetter || '',
       analysisStatus: 'completed'
     };
   } catch (error) {
