@@ -1,4 +1,4 @@
-import { Linkedin } from 'lucide-react';
+import { Briefcase } from 'lucide-react';
 
 /**
  * Displays AI-generated LinkedIn Profile Suggestions in a clean card format.
@@ -8,7 +8,7 @@ const LinkedInSuggestions = ({ suggestions }) => {
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
       <div className="flex items-center gap-2 mb-6 border-b border-gray-100 pb-4">
         <div className="p-2 bg-blue-50 rounded-lg">
-          <Linkedin className="h-5 w-5 text-blue-600" />
+          <Briefcase className="h-5 w-5 text-blue-600" />
         </div>
         <div>
           <h3 className="text-xl font-bold text-gray-900">LinkedIn Profile Suggestions</h3>
