@@ -73,6 +73,7 @@ export const uploadResume = async (req, res) => {
       matchedKeywords: analysisResult.matchedKeywords || [],
       missingKeywords: analysisResult.missingKeywords || [],
       jobFitSummary: analysisResult.jobFitSummary || '',
+      shortFeedbackSummary: analysisResult.shortFeedbackSummary || '',
       analysisStatus: analysisResult.analysisStatus,
     });
 
@@ -93,6 +94,7 @@ export const uploadResume = async (req, res) => {
       matchedKeywords: resumeAnalysis.matchedKeywords,
       missingKeywords: resumeAnalysis.missingKeywords,
       jobFitSummary: resumeAnalysis.jobFitSummary,
+      shortFeedbackSummary: resumeAnalysis.shortFeedbackSummary,
       analysisStatus: resumeAnalysis.analysisStatus,
     });
   } catch (error) {

@@ -43,6 +43,7 @@ export const analyzeResumeWithGemini = async (extractedText, targetJobDescriptio
         "suggestions": ["suggestion1", "suggestion2"],
         "jobMatchSummary": "A brief summary of how well the resume matches the job description.",
         "jobFitSummary": "A detailed explanation of why the candidate is or isn't a good fit for this specific role.",
+        "shortFeedbackSummary": "A short overall AI summary explaining the quality of the resume, ATS readiness, job relevance, and main improvement area.",
         "analysisStatus": "completed"
       }
     `;
@@ -71,6 +72,7 @@ export const analyzeResumeWithGemini = async (extractedText, targetJobDescriptio
       suggestions: analysisData.suggestions || [],
       jobMatchSummary: analysisData.jobMatchSummary || 'No summary provided.',
       jobFitSummary: analysisData.jobFitSummary || 'No job fit summary provided.',
+      shortFeedbackSummary: analysisData.shortFeedbackSummary || 'No feedback summary available yet.',
       analysisStatus: 'completed'
     };
   } catch (error) {

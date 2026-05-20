@@ -5,6 +5,7 @@ import ATSScoreCard from '../components/ATSScoreCard';
 import SkillTags from '../components/SkillTags';
 import SuggestionCard from '../components/SuggestionCard';
 import JobMatchCard from '../components/JobMatchCard';
+import AIFeedbackSummary from '../components/AIFeedbackSummary';
 import api from '../api/axios';
 import { ArrowLeft, Loader2, Calendar, FileText, Download } from 'lucide-react';
 
@@ -115,6 +116,11 @@ const AnalysisResult = () => {
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* AI Feedback Summary - shown at the top of results */}
+          <div className="mb-8">
+            <AIFeedbackSummary summary={result.shortFeedbackSummary} />
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">

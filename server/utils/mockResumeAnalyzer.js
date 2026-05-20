@@ -65,6 +65,7 @@ export const analyzeResumeMock = (extractedText, targetJobDescription = '') => {
     suggestions,
     jobMatchSummary: "Mock summary of job match.",
     jobFitSummary,
+    shortFeedbackSummary: "Your resume shows strong mock experience, but it should include more measurable achievements and job-specific keywords to improve ATS performance.",
     analysisStatus: 'completed'
   };
 };
