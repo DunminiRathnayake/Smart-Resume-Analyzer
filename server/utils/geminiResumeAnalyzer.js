@@ -33,12 +33,16 @@ export const analyzeResumeWithGemini = async (extractedText, targetJobDescriptio
       The JSON must exactly match this structure:
       {
         "atsScore": <number between 0 and 100>,
+        "matchPercentage": <number between 0 and 100 representing how well the resume matches the job>,
         "detectedSkills": ["skill1", "skill2"],
+        "matchedKeywords": ["keyword1", "keyword2"],
+        "missingKeywords": ["keyword1", "keyword2"],
         "missingSkills": ["missingSkill1", "missingSkill2"],
         "strengths": ["strength1", "strength2"],
         "weaknesses": ["weakness1", "weakness2"],
         "suggestions": ["suggestion1", "suggestion2"],
         "jobMatchSummary": "A brief summary of how well the resume matches the job description.",
+        "jobFitSummary": "A detailed explanation of why the candidate is or isn't a good fit for this specific role.",
         "analysisStatus": "completed"
       }
     `;
@@ -57,12 +61,16 @@ export const analyzeResumeWithGemini = async (extractedText, targetJobDescriptio
     // Ensure all required fields exist
     return {
       atsScore: analysisData.atsScore || 0,
+      matchPercentage: analysisData.matchPercentage || 0,
       detectedSkills: analysisData.detectedSkills || [],
+      matchedKeywords: analysisData.matchedKeywords || [],
+      missingKeywords: analysisData.missingKeywords || [],
       missingSkills: analysisData.missingSkills || [],
       strengths: analysisData.strengths || [],
       weaknesses: analysisData.weaknesses || [],
       suggestions: analysisData.suggestions || [],
       jobMatchSummary: analysisData.jobMatchSummary || 'No summary provided.',
+      jobFitSummary: analysisData.jobFitSummary || 'No job fit summary provided.',
       analysisStatus: 'completed'
     };
   } catch (error) {

@@ -46,11 +46,25 @@ export const analyzeResumeMock = (extractedText, targetJobDescription = '') => {
     'Review your resume for proper formatting and remove any complex layouts that might confuse ATS parsers.'
   ];
 
+  const matchPercentage = Math.floor(Math.random() * (90 - 40 + 1)) + 40;
+  
+  const matchedKeywords = detectedSkills.slice(0, 3);
+  const missingKws = missingSkills.slice(0, 3);
+  
+  const jobFitSummary = "This is a mock job fit summary. Based on the matched keywords, the candidate shows potential, but could improve by adding missing required skills.";
+
   return {
     atsScore,
+    matchPercentage,
     detectedSkills,
+    matchedKeywords,
+    missingKeywords: missingKws,
     missingSkills,
+    strengths: ['Mock Strength 1', 'Mock Strength 2'],
+    weaknesses: ['Mock Weakness 1', 'Mock Weakness 2'],
     suggestions,
+    jobMatchSummary: "Mock summary of job match.",
+    jobFitSummary,
     analysisStatus: 'completed'
   };
 };

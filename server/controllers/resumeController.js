@@ -69,6 +69,10 @@ export const uploadResume = async (req, res) => {
       strengths: analysisResult.strengths || [],
       weaknesses: analysisResult.weaknesses || [],
       jobMatchSummary: analysisResult.jobMatchSummary || '',
+      matchPercentage: analysisResult.matchPercentage || 0,
+      matchedKeywords: analysisResult.matchedKeywords || [],
+      missingKeywords: analysisResult.missingKeywords || [],
+      jobFitSummary: analysisResult.jobFitSummary || '',
       analysisStatus: analysisResult.analysisStatus,
     });
 
@@ -85,6 +89,10 @@ export const uploadResume = async (req, res) => {
       strengths: resumeAnalysis.strengths,
       weaknesses: resumeAnalysis.weaknesses,
       jobMatchSummary: resumeAnalysis.jobMatchSummary,
+      matchPercentage: resumeAnalysis.matchPercentage,
+      matchedKeywords: resumeAnalysis.matchedKeywords,
+      missingKeywords: resumeAnalysis.missingKeywords,
+      jobFitSummary: resumeAnalysis.jobFitSummary,
       analysisStatus: resumeAnalysis.analysisStatus,
     });
   } catch (error) {

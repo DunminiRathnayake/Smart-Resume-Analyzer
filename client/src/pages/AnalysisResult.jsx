@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import ATSScoreCard from '../components/ATSScoreCard';
 import SkillTags from '../components/SkillTags';
 import SuggestionCard from '../components/SuggestionCard';
+import JobMatchCard from '../components/JobMatchCard';
 import api from '../api/axios';
 import { ArrowLeft, Loader2, Calendar, FileText, Download } from 'lucide-react';
 
@@ -133,6 +134,15 @@ const AnalysisResult = () => {
                     {result.targetJobDescription}
                   </div>
                 </div>
+              )}
+
+              {result.targetJobDescription && (
+                <JobMatchCard 
+                  matchPercentage={result.matchPercentage}
+                  matchedKeywords={result.matchedKeywords}
+                  missingKeywords={result.missingKeywords}
+                  jobFitSummary={result.jobFitSummary}
+                />
               )}
               
               <SuggestionCard 

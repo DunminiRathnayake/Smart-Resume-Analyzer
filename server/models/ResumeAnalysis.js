@@ -60,6 +60,22 @@ const resumeAnalysisSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    matchPercentage: {
+      type: Number,
+      default: 0,
+    },
+    matchedKeywords: {
+      type: [String],
+      default: [],
+    },
+    missingKeywords: {
+      type: [String],
+      default: [],
+    },
+    jobFitSummary: {
+      type: String,
+      default: '',
+    },
 
     // Track the status of AI analysis
     analysisStatus: {
