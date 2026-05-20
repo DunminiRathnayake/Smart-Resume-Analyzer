@@ -66,6 +66,16 @@ export const analyzeResumeMock = (extractedText, targetJobDescription = '') => {
     jobMatchSummary: "Mock summary of job match.",
     jobFitSummary,
     shortFeedbackSummary: "Your resume shows strong mock experience, but it should include more measurable achievements and job-specific keywords to improve ATS performance.",
+    interviewQuestions: [
+      "Can you explain your experience with React and how you manage state in larger applications?",
+      "How do you optimize Express.js APIs to ensure high performance and low latency?",
+      "What are the key advantages of using MongoDB compared to traditional relational databases in your project?",
+      "In your recent portfolio project, what was the most challenging technical roadblock and how did you resolve it?",
+      "Could you walk me through the system design of your most complex web application?",
+      "Based on our job description, how would you approach implementing user authentication securely?",
+      "How would you optimize the performance of our existing dashboard if you noticed query load times were sluggish?",
+      "Tell me about a time you worked in a team and had to resolve a technical disagreement with a peer."
+    ],
     analysisStatus: 'completed'
   };
 };

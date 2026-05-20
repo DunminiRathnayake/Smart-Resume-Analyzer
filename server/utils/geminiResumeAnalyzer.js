@@ -44,6 +44,16 @@ export const analyzeResumeWithGemini = async (extractedText, targetJobDescriptio
         "jobMatchSummary": "A brief summary of how well the resume matches the job description.",
         "jobFitSummary": "A detailed explanation of why the candidate is or isn't a good fit for this specific role.",
         "shortFeedbackSummary": "A short overall AI summary explaining the quality of the resume, ATS readiness, job relevance, and main improvement area.",
+        "interviewQuestions": [
+          "Technical Question 1 (based on detected skills)",
+          "Technical Question 2 (based on detected skills)",
+          "Technical Question 3 (based on detected skills)",
+          "Project Question 1 (based on projects listed in resume)",
+          "Project Question 2 (based on projects listed in resume)",
+          "Job Description Question 1 (related to target job description)",
+          "Job Description Question 2 (related to target job description)",
+          "Behavioral Question 1"
+        ],
         "analysisStatus": "completed"
       }
     `;
@@ -73,6 +83,7 @@ export const analyzeResumeWithGemini = async (extractedText, targetJobDescriptio
       jobMatchSummary: analysisData.jobMatchSummary || 'No summary provided.',
       jobFitSummary: analysisData.jobFitSummary || 'No job fit summary provided.',
       shortFeedbackSummary: analysisData.shortFeedbackSummary || 'No feedback summary available yet.',
+      interviewQuestions: analysisData.interviewQuestions || [],
       analysisStatus: 'completed'
     };
   } catch (error) {
