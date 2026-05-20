@@ -55,6 +55,13 @@ export const analyzeResumeWithGemini = async (extractedText, targetJobDescriptio
           "Behavioral Question 1"
         ],
         "coverLetter": "A professional cover letter of 3 to 4 short paragraphs. Keep a professional tone, tailor it specifically to the target job description using the candidate's skills and projects from their resume. Ensure it is highly suitable for internship or junior software engineer applications. Do not invent fake company names if they are not explicitly specified in the job description (use [Company Name] or a similar placeholder instead).",
+        "linkedInSuggestions": [
+          "Suggestion 1 (If resume does not mention LinkedIn, first suggestion MUST be: 'Add your LinkedIn profile URL to the contact section of your resume.' otherwise target LinkedIn headline optimization using target job description keywords)",
+          "Suggestion 2 (About section hook / elevator pitch optimization tips)",
+          "Suggestion 3 (Skills list alignment tips for LinkedIn profile searchability)",
+          "Suggestion 4 (Featured projects presentation suggestions)",
+          "Suggestion 5 (Keyword optimization for high-demand skills mentioned in job description)"
+        ],
         "analysisStatus": "completed"
       }
     `;
@@ -86,6 +93,7 @@ export const analyzeResumeWithGemini = async (extractedText, targetJobDescriptio
       shortFeedbackSummary: analysisData.shortFeedbackSummary || 'No feedback summary available yet.',
       interviewQuestions: analysisData.interviewQuestions || [],
       coverLetter: analysisData.coverLetter || '',
+      linkedInSuggestions: analysisData.linkedInSuggestions || [],
       analysisStatus: 'completed'
     };
   } catch (error) {

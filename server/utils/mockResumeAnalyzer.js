@@ -88,6 +88,13 @@ Thank you for your time and consideration. I look forward to the possibility of 
 
 Sincerely,
 [Your Name]`,
+    linkedInSuggestions: [
+      "Optimize your LinkedIn headline to target the Software Engineer role (e.g., 'Aspiring Software Engineer | Full Stack Developer | React & Node.js').",
+      "Draft a compelling 'About' section that serves as an elevator pitch highlighting your key full-stack projects.",
+      "Ensure JavaScript, React, Node.js, and MongoDB are listed as top skills in your LinkedIn Skills section.",
+      "Feature your Smart Resume Analyzer project at the top of your LinkedIn 'Featured' section with a link to the GitHub repository.",
+      "Integrate keywords like 'REST APIs', 'System Architecture', and 'Agile Methodologies' to increase your search visibility."
+    ],
     analysisStatus: 'completed'
   };
 };

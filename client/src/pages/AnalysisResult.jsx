@@ -8,6 +8,7 @@ import JobMatchCard from '../components/JobMatchCard';
 import AIFeedbackSummary from '../components/AIFeedbackSummary';
 import InterviewQuestions from '../components/InterviewQuestions';
 import CoverLetter from '../components/CoverLetter';
+import LinkedInSuggestions from '../components/LinkedInSuggestions';
 import api from '../api/axios';
 import { ArrowLeft, Loader2, Calendar, FileText, Download } from 'lucide-react';
 
@@ -133,6 +134,11 @@ const AnalysisResult = () => {
           {/* AI-Generated Cover Letter */}
           <div className="mb-8">
             <CoverLetter coverLetter={result.coverLetter} />
+          </div>
+
+          {/* LinkedIn Profile Suggestions */}
+          <div className="mb-8">
+            <LinkedInSuggestions suggestions={result.linkedInSuggestions} />
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">

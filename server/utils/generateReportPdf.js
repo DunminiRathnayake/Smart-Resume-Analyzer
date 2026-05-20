@@ -184,6 +184,18 @@ export const generateReportPdf = (analysis, stream) => {
     doc.text(analysis.coverLetter, { align: 'justify' });
   }
 
+  // --- LinkedIn Profile Suggestions ---
+  if (analysis.linkedInSuggestions && analysis.linkedInSuggestions.length > 0) {
+    doc.addPage();
+    drawSectionTitle('LinkedIn Profile Suggestions');
+    doc.font('Helvetica').fontSize(11).fillColor('#374151');
+    analysis.linkedInSuggestions.forEach((sugg, idx) => {
+      doc.font('Helvetica-Bold').fontSize(11).fillColor('#4F46E5').text(`Suggestion ${idx + 1}: `, { font: 'Helvetica-Bold', continued: true })
+         .font('Helvetica').fillColor('#374151').text(sugg);
+      doc.moveDown(0.8);
+    });
+  }
+
   // --- Footer ---
   const pageCount = doc.bufferedPageRange ? doc.bufferedPageRange().count : 1;
   doc.on('pageAdded', () => {
