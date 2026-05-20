@@ -58,37 +58,57 @@ export const generateReportPdf = (analysis, stream) => {
   }
   doc.moveDown(1.5);
 
-  // --- ATS Score Section ---
-  doc.rect(50, doc.y, 495, 80).fillAndStroke('#EEF2FF', '#C7D2FE');
-  
-  // Need to adjust y to center text inside rectangle
-  const scoreY = doc.y + 25; 
-  
-  doc.fillColor('#4338CA').font('Helvetica-Bold').fontSize(16).text('Overall ATS Score', 70, scoreY);
-  
-  // Determine color based on score
-  let scoreColor = '#DC2626'; // Red
-  if (analysis.atsScore >= 75) scoreColor = '#059669'; // Green
-  else if (analysis.atsScore >= 50) scoreColor = '#D97706'; // Orange
+  // --- Score Section (Side by Side or Single) ---
+  if (analysis.targetJobDescription) {
+    const currentY = doc.y;
+    // ATS Score Box
+    doc.rect(50, currentY, 235, 80).fillAndStroke('#EEF2FF', '#C7D2FE');
+    let scoreY = currentY + 25;
+    doc.fillColor('#4338CA').font('Helvetica-Bold').fontSize(12).text('Overall ATS Score', 65, scoreY);
+    let scoreColor = '#DC2626';
+    if (analysis.atsScore >= 75) scoreColor = '#059669';
+    else if (analysis.atsScore >= 50) scoreColor = '#D97706';
+    doc.font('Helvetica-Bold').fontSize(24).fillColor(scoreColor).text(`${analysis.atsScore} / 100`, 50, scoreY - 5, { align: 'right', width: 220 });
 
-  doc
-    .font('Helvetica-Bold')
-    .fontSize(28)
-    .fillColor(scoreColor)
-    .text(`${analysis.atsScore} / 100`, 50, scoreY - 5, { align: 'right', width: 475 });
-
-  doc.moveDown(4); // Move cursor past the rectangle
+    // Match Percentage Box
+    doc.rect(310, currentY, 235, 80).fillAndStroke('#ECFDF5', '#A7F3D0');
+    let matchY = currentY + 25;
+    doc.fillColor('#065F46').font('Helvetica-Bold').fontSize(12).text('Job Match Percentage', 325, matchY);
+    let matchColor = '#DC2626';
+    if (analysis.matchPercentage >= 75) matchColor = '#059669';
+    else if (analysis.matchPercentage >= 50) matchColor = '#D97706';
+    doc.font('Helvetica-Bold').fontSize(24).fillColor(matchColor).text(`${analysis.matchPercentage}%`, 310, matchY - 5, { align: 'right', width: 220 });
+    
+    doc.moveDown(5); // Move cursor past the rectangle
+  } else {
+    // Render only ATS score full width
+    doc.rect(50, doc.y, 495, 80).fillAndStroke('#EEF2FF', '#C7D2FE');
+    let scoreY = doc.y + 25;
+    doc.fillColor('#4338CA').font('Helvetica-Bold').fontSize(16).text('Overall ATS Score', 70, scoreY);
+    let scoreColor = '#DC2626';
+    if (analysis.atsScore >= 75) scoreColor = '#059669';
+    else if (analysis.atsScore >= 50) scoreColor = '#D97706';
+    doc.font('Helvetica-Bold').fontSize(28).fillColor(scoreColor).text(`${analysis.atsScore} / 100`, 50, scoreY - 5, { align: 'right', width: 475 });
+    doc.moveDown(4);
+  }
 
   // Restore normal margins and positions
   doc.x = 50;
 
+  // --- AI Feedback Summary ---
+  drawSectionTitle('AI Feedback Summary');
+  doc.font('Helvetica').fontSize(11).fillColor('#374151');
+  doc.text(analysis.shortFeedbackSummary || 'No feedback summary available yet.', { align: 'justify' });
+
   // --- Job Match Summary ---
-  drawSectionTitle('Job Match Summary');
-  doc.font('Helvetica').fontSize(12).fillColor('#374151');
-  if (analysis.jobMatchSummary) {
-    doc.text(analysis.jobMatchSummary, { align: 'justify' });
-  } else {
-    doc.text('No summary available.', { italic: true });
+  if (analysis.targetJobDescription) {
+    drawSectionTitle('Job Match Analysis');
+    doc.font('Helvetica').fontSize(11).fillColor('#374151');
+    if (analysis.jobFitSummary) {
+      doc.text(analysis.jobFitSummary, { align: 'justify' });
+    } else {
+      doc.text('No job fit summary available.', { italic: true });
+    }
   }
 
   // --- Skills Section ---
@@ -136,6 +156,33 @@ export const generateReportPdf = (analysis, stream) => {
   // --- Suggestions ---
   drawSectionTitle('Actionable Suggestions');
   drawList(analysis.suggestions, 'No suggestions available.');
+
+  // --- Interview Questions ---
+  doc.addPage();
+  drawSectionTitle('AI-Generated Interview Questions');
+  doc.font('Helvetica').fontSize(11).fillColor('#374151');
+  if (!analysis.interviewQuestions || analysis.interviewQuestions.length === 0) {
+    doc.text('No interview questions generated yet.', { italic: true });
+  } else {
+    analysis.interviewQuestions.forEach((q, index) => {
+      let label = 'Behavioral';
+      if (index >= 0 && index <= 2) label = 'Technical';
+      else if (index >= 3 && index <= 4) label = 'Project';
+      else if (index >= 5 && index <= 6) label = 'Job Match';
+
+      doc.font('Helvetica-Bold').fontSize(11).fillColor('#4F46E5').text(`Q${index + 1} [${label}]: `, { font: 'Helvetica-Bold', continued: true })
+         .font('Helvetica').fillColor('#374151').text(q);
+      doc.moveDown(0.8);
+    });
+  }
+
+  // --- Cover Letter ---
+  if (analysis.coverLetter) {
+    doc.addPage();
+    drawSectionTitle('AI-Generated Cover Letter');
+    doc.font('Helvetica').fontSize(11).fillColor('#374151');
+    doc.text(analysis.coverLetter, { align: 'justify' });
+  }
 
   // --- Footer ---
   const pageCount = doc.bufferedPageRange ? doc.bufferedPageRange().count : 1;
